@@ -2,7 +2,7 @@ package ru.korotkevich.service.impl;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.korotkevich.models.entity.Url;
+import ru.korotkevich.models.Url;
 import ru.korotkevich.repository.UrlRepository;
 import ru.korotkevich.service.abstracts.UrlService;
 

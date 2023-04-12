@@ -1,4 +1,4 @@
-package ru.korotkevich.models.entity;
+package ru.korotkevich.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

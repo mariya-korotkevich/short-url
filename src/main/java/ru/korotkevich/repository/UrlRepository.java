@@ -1,7 +1,7 @@
 package ru.korotkevich.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.korotkevich.models.entity.Url;
+import ru.korotkevich.models.Url;
 
 import java.util.Optional;
 
