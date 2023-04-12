@@ -1,5 +1,6 @@
 package ru.korotkevich.controllers;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.korotkevich.service.abstracts.UrlService;
 
@@ -13,12 +14,12 @@ public class UrlController {
     }
 
     @PostMapping("/create")
-    public String create(@RequestBody String originalUrl){
-        return urlService.getShortUrl(originalUrl);
+    public ResponseEntity<String> create(@RequestBody String originalUrl){
+        return ResponseEntity.ok(urlService.getShortUrl(originalUrl));
     }
 
     @GetMapping("/{id}")
-    public String get(@PathVariable String id){
-        return urlService.getOriginalUrl(id);
+    public ResponseEntity<String> get(@PathVariable String id){
+        return ResponseEntity.ok(urlService.getOriginalUrl(id));
     }
 }
