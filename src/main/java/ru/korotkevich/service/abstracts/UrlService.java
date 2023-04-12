@@ -6,4 +6,6 @@ public interface UrlService {
     String getShortUrl(String originalUrl);
 
     Optional<String> getOriginalUrl(String id);
+
+    void delete(String shortId);
 }
