@@ -1,5 +1,7 @@
 package ru.korotkevich.controllers;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.korotkevich.service.abstracts.UrlService;
@@ -20,6 +22,8 @@ public class UrlController {
 
     @GetMapping("/{id}")
     public ResponseEntity<String> get(@PathVariable String id){
-        return ResponseEntity.ok(urlService.getOriginalUrl(id));
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Location", urlService.getOriginalUrl(id));
+        return new ResponseEntity<>(headers, HttpStatus.FOUND);
     }
 }
