@@ -29,9 +29,9 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public String getOriginalUrl(String id) {
+    public Optional<String> getOriginalUrl(String id) {
         Optional<Url> optionalUrl = urlRepository.findUrlByShortUrl("http://localhost:3031/" + id);
-        return optionalUrl.map(Url::getOriginalUrl).orElse(null);
+        return optionalUrl.map(Url::getOriginalUrl);
     }
 
     private String create(String originalUrl) {
