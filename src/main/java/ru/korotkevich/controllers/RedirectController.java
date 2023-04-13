@@ -19,9 +19,9 @@ public class RedirectController {
         this.service = service;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<String> get(@PathVariable String id) {
-        return service.getOriginalUrl(id).map((Function<String, ResponseEntity<String>>) s -> {
+    @GetMapping("/{shortId}")
+    public ResponseEntity<String> get(@PathVariable String shortId) {
+        return service.getOriginalUrl(shortId).map((Function<String, ResponseEntity<String>>) s -> {
             HttpHeaders headers = new HttpHeaders();
             headers.set("Location", s);
             return new ResponseEntity<>(headers, HttpStatus.FOUND);

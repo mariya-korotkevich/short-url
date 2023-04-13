@@ -3,9 +3,9 @@ package ru.korotkevich.service.abstracts;
 import java.util.Optional;
 
 public interface UrlService {
-    String getShortUrl(String originalUrl);
+    String addShortUrl(String originalUrl);
 
-    Optional<String> getOriginalUrl(String id);
+    Optional<String> getOriginalUrl(String shortId);
 
     void delete(String shortId);
 }

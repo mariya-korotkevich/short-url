@@ -16,8 +16,8 @@ public class ShorterUrlController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> create(@RequestBody String originalUrl) {
-        return ResponseEntity.ok(urlService.getShortUrl(originalUrl));
+    public ResponseEntity<String> add(@RequestBody String originalUrl) {
+        return ResponseEntity.ok(urlService.addShortUrl(originalUrl));
     }
 
     @DeleteMapping("/{shortId}")

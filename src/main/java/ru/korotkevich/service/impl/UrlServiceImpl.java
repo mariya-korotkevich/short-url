@@ -5,9 +5,9 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.korotkevich.models.Url;
 import ru.korotkevich.repository.UrlRepository;
 import ru.korotkevich.service.abstracts.UrlService;
+import ru.korotkevich.utils.Util;
 
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 public class UrlServiceImpl implements UrlService {
@@ -21,52 +21,38 @@ public class UrlServiceImpl implements UrlService {
 
     @Override
     @Transactional
-    public String getShortUrl(String originalUrl) {
-        Optional<Url> optionalUrl = repository.findUrlByOriginalUrl(originalUrl);
-        if (optionalUrl.isPresent()){
-            return optionalUrl.get().getShortUrl();
-        } else {
-
-            Url url = new Url();
-            url.setOriginalUrl(originalUrl);
-            url.setShortUrl(host + getNewId());
-            url = repository.save(url);
-            return url.getShortUrl();
-        }
+    public String addShortUrl(String originalUrl) {
+        return repository.findUrlByOriginalUrl(originalUrl)
+                .map(url -> shortUrl(url.getShortId()))
+                .orElseGet(() -> {
+                            String shortId = getNewId();
+                            repository.save(new Url(originalUrl, shortId));
+                            return shortUrl(shortId);
+                        });
     }
 
-    private String getNewId(){
-        String result = randomString();
-        if (repository.findUrlByShortUrl(result).isPresent()){
+    private String getNewId() {
+        String result = Util.randomString();
+        if (repository.findUrlByShortId(result).isPresent()) {
             result = getNewId();
         }
         return result;
     }
 
-    private String randomString() {
-        int leftLimit = 48; // numeral '0'
-        int rightLimit = 122; // letter 'z'
-        int targetStringLength = 10;
-        Random random = new Random();
-        return random.ints(leftLimit, rightLimit + 1)
-                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-                .limit(targetStringLength)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
+    private String shortUrl(String shortId){
+        return host + shortId;
     }
 
     @Override
-    public Optional<String> getOriginalUrl(String id) {
-        Optional<Url> optionalUrl = repository.findUrlByShortUrl(host + id);
-        return optionalUrl.map(Url::getOriginalUrl);
+    public Optional<String> getOriginalUrl(String shortId) {
+        return repository.findUrlByShortId(shortId)
+                .map(Url::getOriginalUrl);
     }
 
     @Override
     @Transactional
     public void delete(String shortId) {
-        Optional<Url> optionalUrl = repository.findUrlByShortUrl(host + shortId);
+        Optional<Url> optionalUrl = repository.findUrlByShortId(shortId);
         optionalUrl.ifPresent(repository::delete);
     }
-
-
 }
