@@ -1,12 +1,11 @@
 package ru.korotkevich.models;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Type;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -33,6 +32,5 @@ public class Url {
 
     @CreationTimestamp
     @Column
-    @Type(type = "org.hibernate.type.LocalDateTimeType")
     private LocalDateTime persistDateTime;
 }
