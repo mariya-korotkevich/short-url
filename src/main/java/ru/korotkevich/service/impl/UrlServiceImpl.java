@@ -1,5 +1,6 @@
 package ru.korotkevich.service.impl;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.korotkevich.models.Url;
@@ -13,7 +14,8 @@ import java.util.Optional;
 public class UrlServiceImpl implements UrlService {
 
     private final UrlRepository repository;
-    private final String host = "http://localhost:3031/";
+    @Value("${local.hostname}")
+    private String host;
 
     public UrlServiceImpl(UrlRepository repository) {
         this.repository = repository;
@@ -25,10 +27,10 @@ public class UrlServiceImpl implements UrlService {
         return repository.findUrlByOriginalUrl(originalUrl)
                 .map(url -> shortUrl(url.getShortId()))
                 .orElseGet(() -> {
-                            String shortId = getNewId();
-                            repository.save(new Url(originalUrl, shortId));
-                            return shortUrl(shortId);
-                        });
+                    String shortId = getNewId();
+                    repository.save(new Url(originalUrl, shortId));
+                    return shortUrl(shortId);
+                });
     }
 
     private String getNewId() {
@@ -39,7 +41,7 @@ public class UrlServiceImpl implements UrlService {
         return result;
     }
 
-    private String shortUrl(String shortId){
+    private String shortUrl(String shortId) {
         return host + shortId;
     }
 
