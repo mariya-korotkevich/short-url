@@ -1,5 +1,6 @@
 package ru.korotkevich.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ public class RedirectController {
         this.service = service;
     }
 
+    @Operation(summary = "Возвращает оригинальный адрес по идентификатору короткого адреса")
     @GetMapping("/{shortId}")
     public ResponseEntity<Void> get(@PathVariable String shortId) {
         return service.getOriginalUrl(shortId).map((Function<String, ResponseEntity<Void>>) s -> {
